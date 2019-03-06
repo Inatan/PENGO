@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>PROJETO TAMAR</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+				font-weight: bold;
+				text-align:center;
+			}
+
+			a {
+				color:#0078ff;
+			}
+
+			#info {
+				color:#fff;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+				z-index:100;
+			}
+		</style>
+	</head>
+	<body>
+
+        <div id="container"></div>
+        <canvas id="canvas" width="15"height="15"></canvas>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+		<script src="build/three.min.js"></script>
+        <script src="js/Three.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/libs/stats.min.js"></script>
+		<script src="js/Controls/OrbitControls.js"></script>
+		<script src="js/THREEx.KeyboardState.js"></script>
+		<script src="js/THREEx.FullScreen.js"></script>
+		<script src="js/THREEx.WindowResize.js"></script>
+        <script src="js/ParticleEngine.js"></script>
+        <script src="js/ParticleEngineExamples.js"></script>
+        <script src="js/libs/stats.min.js"></script>
+        <script src="js/libs/tween.min.js"></script>
+        <script src="js/Sparks.js"></script>
+        <script src="js/loaders/OBJLoader.js"></script>
+        <script src="js/loaders/MTLLoader.js"></script>
+        <script src="js/loaders/OBJMTLLoader.js"></script>
+        <script src="js/ParticleEngine.js"></script>
+        
+        <script src="world.js"></script>
+        <script src="sound.js"></script>
+        <script src="cube.js"></script>
+        <script src="penguin.js"></script>
+        <script src="enemy.js"></script>
+        <script src="controls.js"></script>
+        <script src="speedItem.js"></script>
+        <script src="blocksItem.js"></script>
+        
+		<script src="js/controls/FirstPersonControls.js"></script>
+		<script src="js/Detector.js"></script>       
+        <script src="js/libs/dat.gui.min.js"></script>
+        <script src="fonts/helvetiker_regular.typeface.js"></script>
+        
+		<script>
+
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+            
+            var MAX_SIZE = 15;
+            var UP_CAMERA_Y = 500;
+            var FIRST_CAM_Y = 45;
+            var FIRST_CAM_DISTANCE = 2;
+            var THIRD_CAM_Y = 150;
+            var THIRD_CAM_DISTANCE = 150;
+            var THIRD_CAM_UP_Y = 50;
+            
+            var MOVABLE_CUBE = 1;
+            var FIXED_CUBE = 2;
+            var ENEMY = 3;
+            var PENGO = 4;
+            var SPEED_ITEM = 1;
+            var BLOCKS_ITEM = 2;
+            var movedCube = false;
+            var mapSize = 240;
+            var mapComposer;
+            var mapCamera;
+            var MATRIX_SIZE = 15;
+            var ENEMY_NUM = 4;
+            var worldMatrix = [];
+            var cubeMatrix = [];
+            var enemyMatrix = [];  
+            var itemMatrix = [];
+            var enemyNum = 4;
+            var itemNum = 4;
+            var currentItemNum = 0;
+            var speedItemCounter = 2;
+            var cubeItemCounter = 2;
+            var simCubes = 1;
+            var world;
+            
+            var isGoingUp = false;
+            var isGoingDown = false;
+            var isGoingRight = false;
+            var isGoingLeft = false;
+            
+            var pushingIce = false;
+            var creatingIce = false;
+            
+            var FIRST_PERSON = 1;
+            var THIRD_PERSON = 2;
+            var UP_VIEW = 3;
+            
+            var newMovingBlocks;
+            
+            var DEFAULT_SPEED = 6;
+            var SUPER_SPEED = 10;
+            var charSpeed = DEFAULT_SPEED;
+            
+            var walkingX = 0;
+            var walkingZ = DEFAULT_SPEED;
+            var direction = 1;
+            var NORTH = 1;
+            var WEST = 2;
+            var SOUTH = 3;
+            var EAST = 4;
+            
+            var enemy;
+            var pengo;
+            
+            var startButton;
+            var placeHolder;
+            var engine;
+			var container;
+			var camera, controls, scene, renderer;
+			var light, pointLight;
+            var sunLight;
+            var particleSnow;
+            var particleFireBall;
+            
+            //var menu;
+            
+			var mesh;
+			var defaultSong;
+
+			var clock = new THREE.Clock();
+
+			
+			var fireball =
+			{
+				positionStyle  : Type.SPHERE,
+				positionBase   : new THREE.Vector3( 0, 0, 0 ),
+				positionRadius : 2,
+						
+				velocityStyle : Type.SPHERE,
+				speedBase     : 80,
+				speedSpread   : 16,
+				
+				particleTexture : THREE.ImageUtils.loadTexture( 'images/smokeparticle.png' ),
+
+				sizeTween    : new Tween( [0, 0.1], [1, 150] ),
+				opacityTween : new Tween( [0.7, 1], [1, 0] ),
+				colorBase    : new THREE.Vector3(0.02, 1, 0.4),
+				blendStyle   : THREE.AdditiveBlending,  
+				
+				particlesPerSecond : 40,
+				particleDeathAge   : 1.5,		
+				emitterDeathAge    : 2
+			}
+			var particleFireBall;
+
+			init();
+			animate();
+            
+            
+            //window.onload = function() { if(!window.location.hash) { window.location = window.location + '#loaded'; window.location.reload(); } }
+
+			function init() 
+            {
+                
+            	var snow=
+	    		{
+	        		positionStyle    : Type.CUBE,
+	       			positionBase     : new THREE.Vector3( 325, 600, 325 ),
+	        		positionSpread   : new THREE.Vector3( 350, 0, 350),
+	        
+	        		velocityStyle    : Type.CUBE,
+	        		velocityBase     : new THREE.Vector3( 0, -60, 0 ),
+	        		velocitySpread   : new THREE.Vector3( 50, 20, 50 ), 
+	        		accelerationBase : new THREE.Vector3( 0, -10,0 ),
+	        
+			        angleBase               : 0,
+			        angleSpread             : 720,
+			        angleVelocityBase       :  0,
+			        angleVelocitySpread     : 60,
+			        
+			        particleTexture : THREE.ImageUtils.loadTexture( 'images/snowflake.png' ),
+			            
+			        sizeTween    : new Tween( [0, 0.25], [1, 5] ),
+			        colorBase   : new THREE.Vector3(0.66, 1.0, 0.9), // H,S,L
+			       // opacityTween : new Tween( [2, 3], [0.8, 0] ),
+
+			        particlesPerSecond : 400,
+			        particleDeathAge   : 6.0,       
+			        emitterDeathAge    : 60
+	    		}
+
+				container = document.getElementById( 'container' );         
+                
+				scene = new THREE.Scene();
+                
+                camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 10000 );
+
+                //scene.add(camera);
+                camera.position.set( 0, UP_CAMERA_Y, 0 );
+                camera.lookAt(new THREE.Vector3(0,0,0));
+				//camera.position.set( 0, 25, 0 );
+                
+                mapCamera = new THREE.OrthographicCamera(
+                    -800,//window.innerWidth / -2,		// Left
+                    50,//window.innerWidth / 2,		// Right
+                    50,//window.innerHeight / 2,		// Top
+                    -800,//window.innerHeight / -2,	// Bottom
+                    1,//-5000,            			// Near 
+                    1000 );           			// Far 
+                //mapCamera.up = new THREE.Vector3(0,0,-1);
+                //mapCamera.position.set( 0, 60, 0 );
+                mapCamera.lookAt( new THREE.Vector3(0,-1,0) );
+                mapCamera.position.y = 100;
+                scene.add(mapCamera);
+                
+                $("canvas").hide()
+                
+                sunLight =new THREE.AmbientLight( 0x505050 ); // soft white light scene.add( light );
+				scene.add( sunLight );
+
+				light=new THREE.SpotLight(0xFFD0A8);
+				light.position.set(- 1500, 1000, 2000 );
+				light.castShadow = true;
+				light.shadowDarkness = 0.25;
+				scene.add( light );
+				
+               
+
+				// sound
+				defaultSong = new Sound( [ MUSIC_NORMAL, MUSIC_NORMAL_OGG ], 275, 1 );
+				//defaultSong.play();
+                defaultSong.initSoundMenu();
+
+                // sky              
+                world = new World();
+                world.makeSky(scene);
+
+                
+                
+                //wall
+                world.makeWalls(scene);
+                
+				// ground
+                world.makeGround(scene, mesh);
+
+                //pengo = new Penguin();                             
+
+				renderer = new THREE.WebGLRenderer( { antialias: false } );
+				
+
+				container.innerHTML = "";
+				container.appendChild( renderer.domElement );
+                
+                
+                world.makeScenario(scene);            
+                
+
+                this.particleSnow = new ParticleEngine();
+				/*this.particleSnow.setValues( snow );
+				this.particleSnow.positionBase= new THREE.Vector3(325,300,325);
+				this.particleSnow.initialize();*/
+               	
+                //POSTPROCESSING
+               	renderer.shadowMapEnabled = true;
+    			renderer.shadowMapSoft = true;
+                renderer.autoClear = false;
+                renderer.setClearColor( 0xccccff, 1 );
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                
+
+                this.particleFireBall = new ParticleEngine();
+
+                
+				window.addEventListener( 'resize', onWindowResize, false );
+                
+
+			}
+            
+            
+
+			function onWindowResize() 
+            {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				//controls.handleResize();
+
+			}
+
+			function animate() 
+            {
+                if(enemyNum <= 0)
+                {
+                    window.location.href = "victory.html";
+                }
+				requestAnimationFrame( animate );
+				render();
+
+			}
+            
+            function randomInt(min,max)
+            {
+                return Math.floor(Math.random()*(max-min+1)+min);
+            }
+
+			function render() 
+            {
+                var w = window.innerWidth, h = window.innerHeight;
+                
+                renderer.setViewport( 0, 0, w, h );
+                renderer.clear( false, true, false );
+                
+				var delta = clock.getDelta(),
+					time = clock.getElapsedTime() * 5;
+
+				//controls.update( delta );
+                //renderer.setViewport( 
+				renderer.render( scene, camera );
+				//this.particleSnow.update( delta * 0.5 );
+                this.particleFireBall.update(delta *0.5);
+                renderer.setViewport( 10, h - mapSize - 10, mapSize, mapSize );
+                renderer.render( scene, mapCamera );
+                
+                
+                
+				//defaultSong.update( camera );
+
+			}
+
+			function enemyDeathEffect(enemy)
+			{
+				this.particleFireBall.destroy();
+				
+		        this.particleFireBall.setValues( this.fireball );
+		        this.particleFireBall.positionBase=enemy.position;
+		        this.particleFireBall.initialize();
+		        console.log(this.particleFireBall);
+		        
+			}
+
+
+		</script>
+        
+
+	</body>
+</html>
