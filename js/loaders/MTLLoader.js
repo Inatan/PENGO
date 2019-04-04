@@ -425,4 +425,4 @@ THREE.MTLLoader.nextHighestPowerOfTwo_ = function( x ) {
 
 };
 
-THREE.EventDispatcher.prototype.apply( THREE.MTLLoader.prototype );
+THREE.EventDispatcher.apply( THREE.MTLLoader );

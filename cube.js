@@ -27,7 +27,7 @@ function Cube()
                
         if(cType == MOVABLE_CUBE)
         {
-            var iceText = new THREE.ImageUtils.loadTexture('textures/terrain/ice.jpg');
+            var iceText =new THREE.TextureLoader().load( 'textures/terrain/ice.jpg');
             var iceGeo = new THREE.CubeGeometry(CUBE_SIZE,CUBE_SIZE,CUBE_SIZE);
             var iceMat = new THREE.MeshBasicMaterial({ map: iceText, transparent: true, opacity: 0.9});
             cube = new THREE.Mesh(iceGeo, iceMat);
@@ -40,7 +40,7 @@ function Cube()
         }
         else
         {
-            var wallTexture = THREE.ImageUtils.loadTexture('textures/crate.gif');
+            var wallTexture = new THREE.TextureLoader().load( 'textures/crate.gif');
             var wallGeo = new THREE.CubeGeometry(CUBE_SIZE,CUBE_SIZE,CUBE_SIZE);
             var wallMat = new THREE.MeshBasicMaterial({ map: wallTexture, transparent: false, opacity: 0.9});
             cube = new THREE.Mesh(wallGeo, wallMat);
@@ -59,7 +59,7 @@ function Cube()
         z = posz;
                
         
-        var iceText = new THREE.ImageUtils.loadTexture('textures/terrain/ice.jpg');
+        var iceText = new new THREE.TextureLoader().load( 'textures/terrain/ice.jpg');
         var iceGeo = new THREE.CubeGeometry(10,10,10);
         var iceMat = new THREE.MeshBasicMaterial({ map: iceText, transparent: true, opacity: 0.9});
         cube = new THREE.Mesh(iceGeo, iceMat);
@@ -97,7 +97,7 @@ function Cube()
         x = posx;
         z = posz;
 
-        var iceText = new THREE.ImageUtils.loadTexture('textures/terrain/ice.jpg');
+        var iceText = new THREE.TextureLoader().load( 'textures/terrain/ice.jpg');
         var iceGeo = new THREE.CubeGeometry(CUBE_SIZE,CUBE_SIZE,CUBE_SIZE);
         var iceMat = new THREE.MeshBasicMaterial({ map: iceText, transparent: true, opacity: 0.9});
         cube = new THREE.Mesh(iceGeo, iceMat);
@@ -121,7 +121,7 @@ function Cube()
         cube.position.x = x;
         cube.position.z = z;
         
-        var textSpeed = new THREE.ImageUtils.loadTexture( 'textures/speedTex.jpg' );
+        var textSpeed = new THREE.TextureLoader().load( 'textures/speedTex.jpg' );
         var material = new THREE.MeshBasicMaterial({ map: textSpeed });    
         var sphere = new THREE.Mesh(new THREE.SphereGeometry(15, 15, 15), material);
         sphere.castShadow=true;
@@ -129,7 +129,7 @@ function Cube()
         sphere.position.set(0,20,0);
         sphere.overdraw = true;
        
-        var iceText = new THREE.ImageUtils.loadTexture('textures/terrain/ice.jpg');
+        var iceText = new THREE.TextureLoader().load( 'textures/terrain/ice.jpg');
         var iceGeo = new THREE.CubeGeometry(CUBE_SIZE,CUBE_SIZE,CUBE_SIZE);
         var iceMat = new THREE.MeshBasicMaterial({ map: iceText, transparent: true, opacity: 0.9});
         Ncube = new THREE.Mesh(iceGeo, iceMat);
@@ -157,7 +157,7 @@ function Cube()
         cube.position.x = x;
         cube.position.z = z;
         
-        var textSpeed = new THREE.ImageUtils.loadTexture( 'textures/terrain/blocksTex.jpg' );
+        var textSpeed = new THREE.TextureLoader().load(  'textures/terrain/blocksTex.jpg' );
         var material = new THREE.MeshBasicMaterial({ map: textSpeed });    
         var sphere = new THREE.Mesh(new THREE.SphereGeometry(15, 15, 15), material);
         sphere.castShadow=true;
@@ -165,7 +165,7 @@ function Cube()
         sphere.position.set(0,20,0);
         sphere.overdraw = true;
         
-        var iceText = new THREE.ImageUtils.loadTexture('textures/terrain/ice.jpg');
+        var iceText = new THREE.TextureLoader().load( 'textures/terrain/ice.jpg');
         var iceGeo = new THREE.CubeGeometry(CUBE_SIZE,CUBE_SIZE,CUBE_SIZE);
         var iceMat = new THREE.MeshBasicMaterial({ map: iceText, transparent: true, opacity: 0.9});
         Ncube = new THREE.Mesh(iceGeo, iceMat);
@@ -195,7 +195,6 @@ function Cube()
             var MxF = Math.floor(posx/50);
             Mx = Math.floor(newX/50);
             Mz = Math.floor(newZ/50);
-            console.log(newX);
             if(worldMatrix[(MxF)*MATRIX_SIZE + Mz] == 1 || posx < 0 || posx >= 740)
             {
                 this.destroyCube();
@@ -211,7 +210,7 @@ function Cube()
                             newX = cube.position.x + SLIDING_SPEED;
                             Mx = Math.floor(newX/50);
                             var i;
-                            for(i=0; i < enemyNum; i++)
+                            for(i=0; i < 4; i++)
                             {
                                 if(enemyMatrix[i])
                                 {
@@ -219,7 +218,10 @@ function Cube()
 
                                     if(newX < enemy.getX() + 25 && newX > enemy.getX() - 25 && newZ < enemy.getZ() + 25 && newZ > enemy.getZ() - 25)
                                     {
+										
                                         enemy.destroyEnemy(scene);
+										enemyMatrix[i] = 0;
+										enemyNum--;
                                     }
                                     
                                 }
@@ -252,7 +254,6 @@ function Cube()
             
             if(worldMatrix[(Mx)*MATRIX_SIZE + MzF] == 1 || posz < 0 || posz >= 740)
             {
-                console.log("hey!!");
                 this.destroyCube();
             }
             else
@@ -265,7 +266,7 @@ function Cube()
                             newZ = cube.position.z - SLIDING_SPEED;
                             Mz = Math.floor(newZ/50);
                             var i;
-                            for(i=0; i < enemyNum; i++)
+                            for(i=0; i < 4; i++)
                             {
                                 if(enemyMatrix[i])
                                 {
@@ -274,6 +275,8 @@ function Cube()
                                     if(newX < enemy.getX() + 25 && newX > enemy.getX() - 25 && newZ < enemy.getZ() + 25 && newZ > enemy.getZ() - 25)
                                     {
                                         enemy.destroyEnemy(scene);
+										enemyMatrix[i] = 0;
+										enemyNum--;
                                     }
                                     
                                 }
@@ -317,7 +320,7 @@ function Cube()
                             newX = cube.position.x - SLIDING_SPEED;
                             Mx = Math.floor(newX/50);
                             var i;
-                            for(i=0; i < enemyNum; i++)
+                            for(i=0; i < 4; i++)
                             {
                                 if(enemyMatrix[i])
                                 {
@@ -326,6 +329,8 @@ function Cube()
                                     if(newX < enemy.getX() + 25 && newX > enemy.getX() - 25 && newZ < enemy.getZ() + 25 && newZ > enemy.getZ() - 25)
                                     {
                                         enemy.destroyEnemy(scene);
+										enemyMatrix[i] = 0;
+										enemyNum--;
                                     }
                                     
                                 }
@@ -356,7 +361,6 @@ function Cube()
             
             if(worldMatrix[(Mx)*MATRIX_SIZE + MzF] == 1 || posz < 0 || posz >= 740)
             {
-                console.log("hey!!");
                 this.destroyCube();
             }
             else
@@ -369,7 +373,7 @@ function Cube()
                             newZ = cube.position.z + SLIDING_SPEED;
                             Mz = Math.floor(newZ/50);
                             var i;
-                            for(i=0; i < enemyNum; i++)
+                            for(i=0; i < 4; i++)
                             {
                                 if(enemyMatrix[i])
                                 {
@@ -378,6 +382,8 @@ function Cube()
                                     if(newX < enemy.getX() + 25 && newX > enemy.getX() - 25 && newZ < enemy.getZ() + 25 && newZ > enemy.getZ() - 25)
                                     {
                                         enemy.destroyEnemy(scene);
+										enemyMatrix[i] = 0;
+										enemyNum--;
                                     }
                                     
                                 }
@@ -440,6 +446,7 @@ function Cube()
             itemMatrix[currentItemNum] = sphere;
             currentItemNum++;
         }
+        cubeDeathEffect(cube);
         wasRemoved = true;
         scene.remove(cube);
     }

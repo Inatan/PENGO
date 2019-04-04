@@ -40,7 +40,36 @@ function Sound(sources, radius, volume )
     
     this.initSoundMenu = function ()
     {
-    
+		
+		 var gui = new dat.GUI();
+		 
+		var cntrlMenu =
+		{
+			mover_para_cima : 'W',
+			mover_para_baixo: 'S',
+			rotacionar_direita: 'D',
+			rotacionar_esq: 'A',
+			criar_cubo: 'SHIFT',
+			empurrar_cubo: 'espaco'
+
+		}
+		
+		var controls = gui.addFolder('Controles');
+		
+		controls.add(cntrlMenu, "mover_para_cima", [ 'W']).onChange(
+		function(value){return;});
+		controls.add(cntrlMenu, "mover_para_baixo", [ 'S']).onChange(
+		function(value){return;});
+		controls.add(cntrlMenu, "rotacionar_direita", [ 'D']).onChange(
+		function(value){return;});
+		controls.add(cntrlMenu, "rotacionar_esq", [ 'A']).onChange(
+		function(value){return;});
+		controls.add(cntrlMenu, "criar_cubo", [ 'SHIFT']).onChange(
+		function(value){return;});
+		controls.add(cntrlMenu, "empurrar_cubo", [ 'espaco']).onChange(
+		function(value){return;});
+		
+		
         menu = 
         {
             mudo: false,
@@ -48,10 +77,13 @@ function Sound(sources, radius, volume )
             musicas: 'classica'
         }
         
-        var gui = new dat.GUI();
-        gui.add( menu, "mudo").onChange(function(value) { if(value) defaultSong.pause(); else defaultSong.play();});
-        gui.add( menu, "volume", 0, 1 ).onChange(function(value) {defaultSong.changeVolume(value);});
-        gui.add( menu, "musicas", ['classica', 'pengo', 'somos_pinguins']).onChange(
+       
+		
+		var music = gui.addFolder('Controle de Som');
+
+        music.add( menu, "mudo").onChange(function(value) { if(value) defaultSong.pause(); else defaultSong.play();});
+        music.add( menu, "volume", 0, 1 ).onChange(function(value) {defaultSong.changeVolume(value);});
+        music.add( menu, "musicas", ['classica', 'pengo', 'somos_pinguins']).onChange(
         function(value)
         {
             if(value == 'classica')
@@ -79,6 +111,10 @@ function Sound(sources, radius, volume )
                 }
             }
         });
+		
+
+
+		
     }
     
 }

@@ -3,6 +3,7 @@
 function Enemy()
 {
     var enemy;
+    var isDead = false;
     var that = this;
     
     this.makeEnemy = function (scene, posx, posz)
@@ -57,6 +58,7 @@ function Enemy()
     
     }
     
+
     this.getX = function()
     {
         return enemy.position.x;
@@ -80,10 +82,11 @@ function Enemy()
     this.hasEnemyCollision = function(newPosX, newPosZ)
     {
         var i;
-        for(i=0; i < enemyNum; i++)
+        for(i=0; i < 4; i++)
         {
             var otherEnemy = enemyMatrix[i];
-            if(otherEnemy.getEnemy() != enemy)
+			//console.log(otherEnemy);
+            if(otherEnemy && otherEnemy.getEnemy() != enemy )
             {
                 if(newPosX < otherEnemy.getX() + 30 && newPosX > otherEnemy.getX() - 30 && newPosZ < otherEnemy.getZ() + 30 && newPosZ > otherEnemy.getZ() - 30)
                 {
@@ -98,12 +101,17 @@ function Enemy()
     
     this.moveRandomly = function()
     {
-        window.setInterval(function()
+        var interv = window.setInterval(function()
         {
+            if(isDead)
+            {
+                clearInterval(interv);
+                return;
+            }
             var Mx = Math.floor((enemy.position.x + 10)/50);
             var Mz = Math.floor((enemy.position.z)/50);
             var bool = that.hasEnemyCollision(enemy.position.x + 10, enemy.position.z);
-            if(pengo.getX() > enemy.position.x && enemy.position.x < pengo.getX() + 10 && pengo.getZ() > enemy.position.z && enemy.position.z < pengo.getZ() + 2 && worldMatrix[Mx*MATRIX_SIZE + Mz] != 1
+            if(pengo.getX() > enemy.position.x && enemy.position.x < pengo.getX() + 10 && pengo.getZ() < enemy.position.z && enemy.position.z  < pengo.getZ() + 20 && worldMatrix[Mx*MATRIX_SIZE + Mz] != 1
              && bool == false)
             {
                 enemy.rotation.y = (90 * Math.PI / 180);
@@ -114,7 +122,7 @@ function Enemy()
                 Mx = Math.floor((enemy.position.x - 10)/50);
                 Mz = Math.floor((enemy.position.z)/50);
                 bool = that.hasEnemyCollision(enemy.position.x - 10, enemy.position.z);
-                if(pengo.getX() < enemy.position.x && enemy.position.x > pengo.getX() + 10 && pengo.getZ() < enemy.position.z && enemy.position.z > pengo.getZ() + 2 && worldMatrix[Mx*MATRIX_SIZE + Mz] != 1 && bool == false)
+                if(pengo.getX() < enemy.position.x && enemy.position.x > pengo.getX() + 10 && pengo.getZ() < enemy.position.z && enemy.position.z < pengo.getZ() + 20 && worldMatrix[Mx*MATRIX_SIZE + Mz] != 1 && bool == false)
                 {
                     enemy.rotation.y = 3*(90 * Math.PI / 180);
                     enemy.position.x = enemy.position.x - 10; 
@@ -124,7 +132,7 @@ function Enemy()
                     Mx = Math.floor((enemy.position.x )/50);
                     Mz = Math.floor((enemy.position.z- 10)/50);
                     bool = that.hasEnemyCollision(enemy.position.x, enemy.position.z - 10);
-                    if(pengo.getZ() < enemy.position.z && enemy.position.z > pengo.getZ() + 10 && pengo.getX() < enemy.position.x && enemy.position.x > pengo.getX() + 2 && worldMatrix[Mx*MATRIX_SIZE + Mz] != 1 && bool == false)
+                    if(pengo.getZ() < enemy.position.z && enemy.position.z > pengo.getZ() + 10 && pengo.getX() < enemy.position.x && enemy.position.x < pengo.getX() + 20 && worldMatrix[Mx*MATRIX_SIZE + Mz] != 1 && bool == false)
                     {
                         enemy.rotation.y = 2*(90 * Math.PI / 180);
                         enemy.position.z = enemy.position.z - 10; 
@@ -135,9 +143,8 @@ function Enemy()
                         Mz = Math.floor((enemy.position.z+ 10)/50);
                         
                         bool = that.hasEnemyCollision(enemy.position.x, enemy.position.z + 10);
-                        if(pengo.getZ() > enemy.position.z && enemy.position.z < pengo.getZ() + 10 && pengo.getX() > enemy.position.x && enemy.position.x < pengo.getX() + 2 && worldMatrix[Mx*MATRIX_SIZE + Mz] != 1 && bool == false)
+                        if(pengo.getZ() > enemy.position.z && enemy.position.z < pengo.getZ() + 10 && pengo.getX() < enemy.position.x && enemy.position.x < pengo.getX() + 20 && worldMatrix[Mx*MATRIX_SIZE + Mz] != 1 && bool == false)
                         {
-                            console.log("OLAOLA");
                             enemy.rotation.y = 0;
                             enemy.position.z = enemy.position.z + 10; 
                         }
@@ -158,14 +165,19 @@ function Enemy()
                     }
                 }
             }
-
-
+            
+            if(pengo.getX() < enemy.position.x  + 15 && pengo.getX() > enemy.position.x  - 15 && pengo.getZ() < enemy.position.z + 15 && pengo.getZ() > enemy.position.z  - 15)
+            {
+                pengo.destroyPenguin();
+            }
             
         }, 200);
     }
     
     this.move = function(scene, posx, posz)
     {
+        
+        
         enemy.position.x = enemy.position.x + posx;
         enemy.position.z = enemy.position.z + posz;
         //enemy.translateY( posz );
@@ -175,8 +187,8 @@ function Enemy()
     
     this.destroyEnemy = function(scene)
     {
-        enemyNum--;
-        enemyDeathEffect(enemy);
+        isDead = true;
+		enemyDeathEffect(enemy);
         scene.remove(enemy);
     }
     

@@ -1,16 +1,19 @@
-# Wavefront material library
-# Tue Aug 03 07:54:48 1999
-# Created with Viewpoint Interchange www.viewpoint.com
+# Exported from Wings 3D 1.4.1
+newmtl None
+Ns 100.0
+d 1.0
+illum 2
+Kd 0.8 0.8 0.8
+Ka 0.0 0.0 0.0
+Ks 0.8 0.8 0.8
+Ke 0.0 0.0 0.0
 
-newmtl peng_body
-  Ka 0 0 0
-  Kd 0 0 0
-  Ks 0 0 0
-  illum 2
-  map_Kd penguin.tif
+newmtl default
+Ns 100.0
+d 1.0
+illum 2
+Kd 0.7898538076923077 0.8133333333333334 0.6940444444444445
+Ka 0.7898538076923077 0.8133333333333334 0.6940444444444445
+Ks 1.0 1.0 1.0
+Ke 0.0 0.0 0.0
 
-newmtl peng_eye
-  Ka 0 0 0
-  Kd 0.121569 0.121569 0.121569
-  Ks 0.121569 0.121569 0.121569
-  illum 2

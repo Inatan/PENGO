@@ -217,14 +217,14 @@ function ParticleEngine()
 		{
 			texture:   { type: "t", value: this.particleTexture },
 		},
-		attributes:     
-		{
-			customVisible:	{ type: 'f',  value: [] },
-			customAngle:	{ type: 'f',  value: [] },
-			customSize:		{ type: 'f',  value: [] },
-			customColor:	{ type: 'c',  value: [] },
-			customOpacity:	{ type: 'f',  value: [] }
-		},
+		// attributes:     
+		// {
+		// 	customVisible:	{ type: 'f',  value: [] },
+		// 	customAngle:	{ type: 'f',  value: [] },
+		// 	customSize:		{ type: 'f',  value: [] },
+		// 	customColor:	{ type: 'c',  value: [] },
+		// 	customOpacity:	{ type: 'f',  value: [] }
+		// },
 		vertexShader:   particleVertexShader,
 		fragmentShader: particleFragmentShader,
 		transparent: true, // alphaTest: 0.5,  // if having transparency issues, try including: alphaTest: 0.5, 
@@ -367,9 +367,9 @@ ParticleEngine.prototype.update = function(dt)
 	var recycleIndices = [];
 	
 	// update particle data
-	for (var i = 0; i < this.particleCount && i<this.particleArray.length; i++)
+	for (var i = 0; i < this.particleCount; i++)
 	{
-		if ( this.particleArray[i].alive )
+		if (typeof this.particleArray[i] !== "undefined" && this.particleArray[i].alive )
 		{
 			this.particleArray[i].update(dt);
 
@@ -402,7 +402,8 @@ ParticleEngine.prototype.update = function(dt)
 			  endIndex = this.particleCount; 
 			  
 		for (var i = startIndex; i < endIndex; i++)
-			this.particleArray[i].alive = 1.0;		
+			if (typeof this.particleArray[i] !== "undefined")
+				this.particleArray[i].alive = 1.0;		
 	}
 
 	// if any particles have died while the emitter is still running, we imediately recycle them

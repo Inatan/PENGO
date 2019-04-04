@@ -98,7 +98,7 @@ function Penguin()
     this.hasCollisionWithEnemy = function(newPosX, newPosZ)
     {
         var i;
-        for(i=0; i < enemyNum; i++)
+        for(i=0; i < 4; i++)
         {
             if(enemyMatrix[i])
             {

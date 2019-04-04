@@ -511,7 +511,7 @@ THREE.MD2CharacterComplex = function () {
 
 		for ( var i = 0; i < textureUrls.length; i ++ ) {
 
-			textures[ i ] = THREE.ImageUtils.loadTexture( baseUrl + textureUrls[ i ], mapping, checkLoadingComplete );
+			textures[ i ] = new THREE.TextureLoader().load(  baseUrl + textureUrls[ i ], mapping, checkLoadingComplete );
 			textures[ i ].name = textureUrls[ i ];
 
 		}

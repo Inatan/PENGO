@@ -27,7 +27,7 @@
 	accelerationBase   : new THREE.Vector3(),
 	accelerationSpread : new THREE.Vector3(),
 		
-	particleTexture : THREE.ImageUtils.loadTexture( 'images/star.png' ),
+	particleTexture : THREE.TextureLoader( 'images/star.png' ),
 		
 	// rotation of image used for particles
 	angleBase               : 0,
@@ -81,7 +81,7 @@ Examples =
 
 		accelerationBase : new THREE.Vector3( 0, -100, 0 ),
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/star.png' ),
+		particleTexture : THREE.TextureLoader( 'images/star.png' ),
 
 		angleBase               : 0,
 		angleSpread             : 180,
@@ -107,7 +107,7 @@ Examples =
 		speedBase     : 40,
 		speedSpread   : 8,
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/smokeparticle.png' ),
+		particleTexture : THREE.TextureLoader( 'images/smokeparticle.png' ),
 
 		sizeTween    : new Tween( [0, 0.1], [1, 150] ),
 		opacityTween : new Tween( [0.7, 1], [1, 0] ),
@@ -130,7 +130,7 @@ Examples =
 		velocitySpread   : new THREE.Vector3( 80, 50, 80 ), 
 		accelerationBase : new THREE.Vector3( 0,-10,0 ),
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/smokeparticle.png'),
+		particleTexture : THREE.TextureLoader( 'images/smokeparticle.png'),
 
 		angleBase               : 0,
 		angleSpread             : 720,
@@ -156,7 +156,7 @@ Examples =
 		velocityBase   : new THREE.Vector3( 40, 0, 0 ),
 		velocitySpread : new THREE.Vector3( 20, 0, 0 ), 
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/smokeparticle.png'),
+		particleTexture : THREE.TextureLoader( 'images/smokeparticle.png'),
 
 		sizeBase     : 80.0,
 		sizeSpread   : 100.0,
@@ -184,7 +184,7 @@ Examples =
 		angleVelocityBase       :  0,
 		angleVelocitySpread     : 60,
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/snowflake.png' ),
+		particleTexture : THREE.TextureLoader( 'images/snowflake.png' ),
 			
 		sizeTween    : new Tween( [0, 0.25], [1, 10] ),
 		colorBase   : new THREE.Vector3(0.66, 1.0, 0.9), // H,S,L
@@ -206,7 +206,7 @@ Examples =
 		velocitySpread   : new THREE.Vector3( 10, 50, 10 ), 
 		accelerationBase : new THREE.Vector3( 0, -10,0 ),
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/raindrop2flip.png' ),
+		particleTexture : THREE.TextureLoader( 'images/raindrop2flip.png' ),
 
 		sizeBase    : 8.0,
 		sizeSpread  : 4.0,
@@ -234,7 +234,7 @@ Examples =
 		angleVelocityBase       : 0,
 		angleVelocitySpread     : 4,
 
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/spikey.png' ),
+		particleTexture : THREE.TextureLoader( 'images/spikey.png' ),
 		
 		sizeBase    : 10.0,
 		sizeSpread  : 2.0,				
@@ -257,7 +257,7 @@ Examples =
 		velocityBase   : new THREE.Vector3( 0, 0, 0 ),
 		velocitySpread : new THREE.Vector3( 60, 20, 60 ), 
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/spark.png' ),
+		particleTexture : THREE.TextureLoader( 'images/spark.png' ),
 
 		sizeBase   : 30.0,
 		sizeSpread : 2.0,
@@ -286,7 +286,7 @@ Examples =
 		angleVelocityBase       : 10,
 		angleVelocitySpread     : 0,
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/spikey.png' ),
+		particleTexture : THREE.TextureLoader( 'images/spikey.png' ),
 
 		sizeBase    : 4.0,
 		sizeSpread  : 2.0,				
@@ -311,7 +311,7 @@ Examples =
 		
 		accelerationBase : new THREE.Vector3( 0, -80, 0 ),
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/spark.png' ),
+		particleTexture : THREE.TextureLoader( 'images/spark.png' ),
 		
 		sizeTween    : new Tween( [0.5, 0.7, 1.3], [5, 40, 1] ),
 		opacityTween : new Tween( [0.2, 0.7, 2.5], [0.75, 1, 0] ),
@@ -333,7 +333,7 @@ Examples =
 		velocityBase   : new THREE.Vector3(0,100,0),
 		velocitySpread : new THREE.Vector3(20,0,20),
 		
-		particleTexture : THREE.ImageUtils.loadTexture( 'images/smokeparticle.png' ),
+		particleTexture : THREE.TextureLoader( 'images/smokeparticle.png' ),
 		
 		sizeTween    : new Tween( [0, 0.3, 1.2], [20, 150, 1] ),
 		opacityTween : new Tween( [0.9, 1.5], [1, 0] ),

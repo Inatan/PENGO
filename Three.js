@@ -13954,7 +13954,7 @@ THREE.SceneLoader.prototype = {
 
 				} else {
 
-					texture = new THREE.TextureLoader().load( url_array, textureJSON.mapping, generateTextureCallback( count ) );
+					texture = THREE.ImageUtils.loadTextureCube( url_array, textureJSON.mapping, generateTextureCallback( count ) );
 
 				}
 
@@ -13970,7 +13970,7 @@ THREE.SceneLoader.prototype = {
 
 				} else {
 
-					texture = new THREE.TextureLoader().load( fullUrl, textureJSON.mapping, textureCallback );
+					texture = THREE.ImageUtils.loadTexture( fullUrl, textureJSON.mapping, textureCallback );
 
 				}
 

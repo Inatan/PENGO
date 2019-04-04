@@ -354,7 +354,7 @@ function Controls(character, scene, camera)
                             cubeMatrix[Mx*MATRIX_SIZE + Mz] = movingCube;   
                             worldMatrix[Mx*MATRIX_SIZE + Mz] = 1;
                         }
-                    },1700);
+                    },2000);
                     
                 }
                 

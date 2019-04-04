@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+<meta name="Description" content="Information architecture, Web Design, Web Standards." />
+<meta name="Keywords" content="your, keywords" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="Distribution" content="Global" />
+<meta name="Author" content="Erwin Aligam - ealigam@gmail.com" />
+<meta name="Robots" content="index,follow" />		
+
+<link rel="stylesheet" href="images/NewHorizon.css" type="text/css" />
+
+<title>Pengo 3D</title>
+	
+</head>
+
+<body>
+
+	<!-- navigation starts here -->
+	<div id="nav">
+		
+		<ul>
+			<li><a href="index.html">Sobre</a></li>
+            <li id="current"><a href="implementacao.html">Implementação</a></li>	
+			<li><a href="downloads.html">Downloads</a></li>		
+		</ul>
+	
+	</div>
+
+	<!-- header starts here -->
+	<div id="header">	
+	
+		<div id="clouds"></div>
+		
+		<h1 id="logo-text"><a href="index.html" title="">Pengo 3D</a></h1>	
+		<p id="slogan">A Batalha Estelar</p>				
+	
+	</div>	
+				
+	<!-- content-wrap starts here -->
+	<div id="content-wrap"><div id="content">	 
+	
+		<div id="sidebar" >	
+		
+				
+			<h3>Sidebar Menu</h3>			
+			<ul class="sidemenu">
+				<li><a href="index.html">Sobre o Jogo</a></li>
+				<li><a href="downloads.html">Downloads</a></li>
+			</ul>	
+				
+				
+			<h3>Links Importantes</h3>
+			<ul class="sidemenu">
+				<li><a href="http://pengo.fortesrey.net" title="pengo">Link para o Jogo</a></li>
+				<li><a href="http://doge2048.com/" title="doge">Doge</a></li>
+			</ul>
+				
+			<h3>Palavras de Sabedoria</h3>
+			<p>&quot;Nunca deixe trabalhos para a última hora.&quot;</p>		
+			
+			<p class="align-right">- Estudante no Final do Semestre</p>		
+		
+			<h3>Contato</h3>			
+			<p>Qualquer dúvida ou sugestão, nos contate pelo e-mail mfrey@inf.ufrgs.br.
+			</p>	
+		
+		</div>	
+	
+		<div id="main">		
+				
+			<a name="TemplateInfo"></a>				
+			
+			<h2><a href="index.html">Como Foi Desenvolvido</a></h2>		
+
+				
+            <br /><p><strong>Pengo 3D</strong> foi desenvolvido em WebGL na linguagem Javascript, utilizando a biblioteca Three.js, que utiliza o WebGL puro.
+            Também utilizamos a biblioteca DAT.Gui para fazer o menu com as opções de música e com a informação dos controles utilizados no jogo.
+            
+            <br/>
+            
+            Separamos o código em Javascript em diversas classes, uma para os cubos, outra para o pinguim, outra para os patos, etc. Com isso criamos métodos como
+            deletar, criar e mover elementos que se tornaram simples e de fácil manutenção.
+            Adicionamos ao trabalho, com a ajuda da Three.js, explosões com partículas, músicas de fundo, um menu de fácil visualização e sombras.
+            </p>
+            
+            
+				
+
+						
+			<a name="SampleTags"></a>
+			<h2><a href="index.html">Métodos e Propriedades</a></h2>
+							
+		
+
+			<p><code>
+				var MAX_SIZE = 15; <br/>
+var UP_CAMERA_Y = 500; <br/>
+var FIRST_CAM_Y = 45; <br/>
+var FIRST_CAM_DISTANCE = 2; <br/>
+var THIRD_CAM_Y = 150; <br/>
+var THIRD_CAM_DISTANCE = 150; <br/>
+var THIRD_CAM_UP_Y = 50;           <br/>  
+var MOVABLE_CUBE = 1; <br/>
+var FIXED_CUBE = 2; <br/>
+var ENEMY = 3; <br/>
+var PENGO = 4; <br/>
+var SPEED_ITEM = 1; <br/>
+var BLOCKS_ITEM = 2; <br/>
+var movedCube = false; <br/>
+var mapSize = 240; <br/>
+var mapComposer; <br/>
+var mapCamera; <br/>
+var MATRIX_SIZE = 15; <br/>
+var ENEMY_NUM = 4; <br/>
+var worldMatrix = []; <br/>
+var cubeMatrix = []; <br/>
+var enemyMatrix = [];   <br/>
+var itemMatrix = []; <br/>
+var enemyNum = 4; <br/>
+var itemNum = 4; <br/>
+var currentItemNum = 0; <br/>
+var speedItemCounter = 2; <br/>
+var cubeItemCounter = 2; <br/>
+var simCubes = 1; <br/>
+var world;             <br/>
+var isGoingUp = false; <br/>
+var isGoingDown = false; <br/>
+var isGoingRight = false; <br/>
+var isGoingLeft = false; <br/>
+var pushingIce = false; <br/>
+var creatingIce = false;      <br/>       
+var FIRST_PERSON = 1; <br/>
+var THIRD_PERSON = 2; <br/>
+var UP_VIEW = 3; <br/>
+var newMovingBlocks;   <br/>          
+var DEFAULT_SPEED = 6; <br/>
+var SUPER_SPEED = 10; <br/>
+var charSpeed = DEFAULT_SPEED; <br/>            
+var walkingX = 0; <br/>         
+var walkingZ = DEFAULT_SPEED; <br/>
+var direction = 1; <br/>
+var NORTH = 1; <br/>
+var WEST = 2; <br/>
+var SOUTH = 3; <br/>
+var EAST = 4;        <br/>  
+var enemy; <br/>
+var pengo;       <br/> 
+var startButton; <br/>
+var placeHolder; <br/>
+var engine; <br/>
+var container; <br/>
+var camera, controls, scene, renderer; <br/>
+var light, pointLight; <br/>
+var sunLight; <br/>
+var particle; <br/>
+var particle;   <br/>
+var mesh; <br/>
+var defaultSong; <br/>
+var clock = new THREE.Clock(); <br/>
+var fireball; <br/>
+var snow; <br/>
+var particle; <br/>
+function init() <br/>
+function onWindowResize() <br/>
+function animate()  <br/>
+function randomInt(min,max) <br/>
+function render() <br/>
+function enemyDeathEffect(enemy) <br/>
+function cubeDeathEffect(cube) <br/>
+/************************************************************************* <br/>
+**************Pinguin***************************************************** <br/>
+*************************************************************************/ <br/>
+var pengo; <br/>
+var DEFAULT_SPEED = 4; <br/>
+var SUPER_SPEED = 6; <br/>
+var charSpeed = DEFAULT_SPEED; <br/>
+var walkingX = 0; <br/>
+var walkingZ = DEFAULT_SPEED; <br/>
+var direction = 3; <br/>
+var NORTH = 1; <br/>
+var WEST = 2; <br/>
+var SOUTH = 3; <br/>
+var EAST = 4; <br/>
+var that = this; <br/>
+var angle; <br/>
+var normalAngle; <br/>
+var goingLeft; <br/>
+this.makePenguin = function (scene, posx, posz) <br/>
+this.getDirection = function() <br/>
+this.hasCollisionWithEnemy = function(newPosX, newPosZ) <br/>
+this.handleCollisionWithItem = function(newPosX, newPosZ) <br/>
+this.applyMovement = function(scene, posx, posz) <br/>
+this.goUp = function(scene, controls) <br/>
+this.goDown = function(scene, controls) <br/>
+this.turnLeft = function(scene, controls) <br/>
+this.turnRight = function(scene, controls) <br/>
+this.destroyPenguin = function() <br/>
+/************************************************************************ <br/>
+*********************************World*********************************** <br/>
+************************************************************************/ <br/>
+var charac; <br/>
+var controls; <br/>
+var ready = 0; <br/>
+var imgData; <br/>
+var img; <br/>
+this.makeScenario = function(scene) <br/>
+this.makeGround = function(scene, mesh) <br/>
+this.makeWalls = function(scene) <br/>
+this.makeSky = function(scene) <br/>
+/************************************************************************ <br/>
+*********************************Cube************************************ <br/>
+************************************************************************/ <br/>
+var x; <br/>
+var y; <br/>
+var z; <br/>
+var type; <br/>
+var cube; <br/>
+var Ncube; <br/>
+var hasSpeedItem = false; <br/>
+var hasBlocksItem = false; <br/>
+var wasRemoved = false; <br/>
+var Mx; <br/>
+var Mz; <br/>
+var newX; <br/>
+var newZ; <br/>
+this.makeCube = function(posx, posz, cType) <br/>
+this.makeMiniCube = function(posx,posz) <br/>
+this.generatePrePaidCube = function(posx, posz) <br/>
+this.makeSpeedItemCube = function(posx, posz) <br/>
+this.makeBlocksItemCube = function(posx, posz) <br/>
+this.pushCube = function(direction) <br/>
+this.cubeWasRemoved = function() <br/>
+this.destroyCube = function() <br/>
+/************************************************************************ <br/>
+*********************************Enemy*********************************** <br/>
+************************************************************************/ <br/>
+var enemy; <br/>
+var that = this; <br/>
+this.makeEnemy = function (scene, posx, posz) <br/>
+this.hasEnemyCollision = function(newPosX, newPosZ) <br/>
+this.moveRandomly = function() <br/>
+this.move = function(scene, posx, posz) <br/>
+this.destroyEnemy = function(scene) <br/>
+/************************************************************************ <br/>
+*********************************Sound*********************************** <br/>
+************************************************************************/ <br/>
+var menu; <br/>
+var audio = document.createElement( 'audio' ); <br/>
+var source = document.createElement( 'source' ); <br/>
+this.play = function ()  <br/>
+this.pause = function () <br/>
+this.changeVolume = function ( value ) <br/>
+this.initSoundMenu = function () <br/>
+/************************************************************************ <br/>
+*********************************BlockItem******************************* <br/> 
+************************************************************************/ <br/>
+var sphere; <br/>
+this.makeBlocksItem = function(posx, posz) <br/>
+this.destroySphere = function() <br/>
+this.getType = function() <br/>
+/************************************************************************ <br/>
+*********************************SpeedItem******************************* <br/>
+************************************************************************/ <br/>
+var sphere; <br/>
+this.makeSpeedItem = function(posx, posz) <br/>
+this.destroySphere = function() <br/>
+this.getType = function() <br/>
+/************************************************************************ <br/>
+*********************************Control********************************* <br/>
+************************************************************************/ <br/>
+var  controls <br/>
+var x; <br/>
+var z; <br/>
+var y; <br/>
+var that = this; <br/>
+this.hasCollisionWithEnemy = function(newPosX, newPosZ) <br/>
+window.addEventListener('keydown', function (event) <br/>
+window.addEventListener('keyup', function (event) <br/>
+				
+			</code></p>	
+      
+            
+
+
+			
+			
+						
+			<br />
+										
+		</div>					
+		
+	<!-- content-wrap ends here -->		
+	</div></div>
+
+    <!-- footer starts here-->	
+	<div id="footer-wrap">
+	
+
+	
+		<div id="footer-bottom">		
+			<p>
+			&copy; 2014 <strong>Marina Fortes Rey e Inatan Lopes Hertzog</strong>
+
+         &nbsp;&nbsp;&nbsp;&nbsp;
+
+			Design by <a href="http://www.styleshout.com/">styleshout</a>
+
+	
+		</div>	
+	
+	<!-- footer ends-->		
+	</div>
+
+</body>
+</html>

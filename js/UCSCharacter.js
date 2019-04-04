@@ -83,7 +83,7 @@ THREE.UCSCharacter = function() {
 
 		for ( var i = 0; i < textureUrls.length; i ++ ) {
 
-			textures[ i ] = THREE.ImageUtils.loadTexture( baseUrl + textureUrls[ i ], mapping, scope.checkLoadComplete );
+			textures[ i ] = new THREE.TextureLoader().load( ( baseUrl + textureUrls[ i ], mapping, scope.checkLoadComplete );
 			textures[ i ].name = textureUrls[ i ];
 
 		}

@@ -83,7 +83,6 @@ function World()
                     var coord = bitmapToWorld(j,i);
                     
                     var rand = Math.random();
-                    console.log(rand);
                     if(rand > 0.7 && speedItemCounter > 0)
                     {
                         cube.castShadow=true;
@@ -158,7 +157,7 @@ function World()
     
     this.makeGround = function(scene, mesh)
     {
-        var texture = THREE.ImageUtils.loadTexture('textures/terrain/snow_ground.jpg');
+        var texture = new THREE.TextureLoader().load('textures/terrain/snow_ground.jpg');
         
         var material = new THREE.MeshBasicMaterial( { map: texture/*, envMap:  textureCube*/ } );
 
@@ -172,8 +171,8 @@ function World()
 
     this.makeWalls = function(scene)
     {
-    
-        var wallTexture = THREE.ImageUtils.loadTexture('textures/terrain/wall.jpg');
+		
+		var wallTexture = new THREE.TextureLoader().load('textures/terrain/wall.jpg');
         wallTexture.wrapS = wallTexture.wrapT = THREE.RepeatWrapping;
         wallTexture.repeat.set( 10, 1 );
         var cubeGeometry = new THREE.CubeGeometry(SCENE_SIZE + 2*WALL_WIDTH,WALL_HEIGHT,WALL_WIDTH); 
@@ -223,8 +222,8 @@ function World()
         var urls = [ urlPrefix + "px.jpg", urlPrefix + "nx.jpg",
             urlPrefix + "py.jpg", urlPrefix + "ny.jpg",
             urlPrefix + "pz.jpg", urlPrefix + "nz.jpg" ];
-        var textureCube = THREE.ImageUtils.loadTextureCube( urls );
-        textureCube.format = THREE.RGBFormat;
+        var textureCube = new THREE.CubeTextureLoader().load( urls );
+        //textureCube.format = THREE.RGBFormat;
 
         var shader = THREE.ShaderLib["cube"];
         shader.uniforms['tCube'].value = textureCube;

@@ -359,4 +359,4 @@ THREE.OBJMTLLoader.prototype = {
 
 };
 
-THREE.EventDispatcher.prototype.apply( THREE.OBJMTLLoader.prototype );
+THREE.EventDispatcher.apply( THREE.OBJMTLLoader );

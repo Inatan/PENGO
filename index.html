@@ -37,8 +37,8 @@
 		<script src="build/three.min.js"></script>
         <script src="js/Three.js"></script>
 		<script src="js/Detector.js"></script>
-		<script src="js/libs/stats.min.js"></script>
-		<script src="js/Controls/OrbitControls.js"></script>
+		<script src="js/Stats.js"></script>
+		<script src="js/OrbitControls.js"></script>
 		<script src="js/THREEx.KeyboardState.js"></script>
 		<script src="js/THREEx.FullScreen.js"></script>
 		<script src="js/THREEx.WindowResize.js"></script>
@@ -140,7 +140,7 @@
             var sunLight;
             var particleSnow;
             var particleFireBall;
-            
+            var particle;
             //var menu;
             
 			var mesh;
@@ -149,7 +149,7 @@
 			var clock = new THREE.Clock();
 
 			
-			var fireball =
+            var fireball =
 			{
 				positionStyle  : Type.SPHERE,
 				positionBase   : new THREE.Vector3( 0, 0, 0 ),
@@ -159,7 +159,7 @@
 				speedBase     : 80,
 				speedSpread   : 16,
 				
-				particleTexture : THREE.ImageUtils.loadTexture( 'images/smokeparticle.png' ),
+				particleTexture : new THREE.TextureLoader().load( 'images/smokeparticle.png' ),
 
 				sizeTween    : new Tween( [0, 0.1], [1, 150] ),
 				opacityTween : new Tween( [0.7, 1], [1, 0] ),
@@ -170,7 +170,34 @@
 				particleDeathAge   : 1.5,		
 				emitterDeathAge    : 2
 			}
-			var particleFireBall;
+			var snow=
+            {
+                positionStyle    : Type.CUBE,
+                positionBase     : new THREE.Vector3( 0, 5, 0 ),
+                positionSpread   : new THREE.Vector3( 5, 0, 5),
+        
+                velocityStyle    : Type.CUBE,
+                velocityBase : new THREE.Vector3( 0, 25, 0 ), 
+                velocitySpread : new THREE.Vector3( 100, 0, 100 ),
+                accelerationBase : new THREE.Vector3( 0, -100,0 ),
+        
+                angleBase               : 0,
+                angleSpread             : 720,
+                angleVelocityBase       :  0,
+                angleVelocitySpread     : 720,
+                
+                particleTexture : new THREE.TextureLoader().load('textures/terrain/ice.jpg' ),
+                    
+                sizeTween    : new Tween( [0, 0.25], [1, 5] ),
+                colorBase   : new THREE.Vector3(0.66, 1.0, 0.9), // H,S,L
+                opacityTween : new Tween( [2, 3], [0.8, 0] ),
+
+                particlesPerSecond : 750,
+                particleDeathAge   : 1.5,       
+                emitterDeathAge    : 1.5
+            }
+	    	var particle;
+			
 
 			init();
 			animate();
@@ -181,32 +208,6 @@
 			function init() 
             {
                 
-            	var snow=
-	    		{
-	        		positionStyle    : Type.CUBE,
-	       			positionBase     : new THREE.Vector3( 325, 600, 325 ),
-	        		positionSpread   : new THREE.Vector3( 350, 0, 350),
-	        
-	        		velocityStyle    : Type.CUBE,
-	        		velocityBase     : new THREE.Vector3( 0, -60, 0 ),
-	        		velocitySpread   : new THREE.Vector3( 50, 20, 50 ), 
-	        		accelerationBase : new THREE.Vector3( 0, -10,0 ),
-	        
-			        angleBase               : 0,
-			        angleSpread             : 720,
-			        angleVelocityBase       :  0,
-			        angleVelocitySpread     : 60,
-			        
-			        particleTexture : THREE.ImageUtils.loadTexture( 'images/snowflake.png' ),
-			            
-			        sizeTween    : new Tween( [0, 0.25], [1, 5] ),
-			        colorBase   : new THREE.Vector3(0.66, 1.0, 0.9), // H,S,L
-			       // opacityTween : new Tween( [2, 3], [0.8, 0] ),
-
-			        particlesPerSecond : 400,
-			        particleDeathAge   : 6.0,       
-			        emitterDeathAge    : 60
-	    		}
 
 				container = document.getElementById( 'container' );         
                 
@@ -240,14 +241,14 @@
 				light=new THREE.SpotLight(0xFFD0A8);
 				light.position.set(- 1500, 1000, 2000 );
 				light.castShadow = true;
-				light.shadowDarkness = 0.25;
+				//light.shadowDarkness = 0.25;
 				scene.add( light );
 				
                
 
 				// sound
 				defaultSong = new Sound( [ MUSIC_NORMAL, MUSIC_NORMAL_OGG ], 275, 1 );
-				//defaultSong.play();
+				defaultSong.play();
                 defaultSong.initSoundMenu();
 
                 // sky              
@@ -273,22 +274,19 @@
                 
                 world.makeScenario(scene);            
                 
-
-                this.particleSnow = new ParticleEngine();
-				/*this.particleSnow.setValues( snow );
-				this.particleSnow.positionBase= new THREE.Vector3(325,300,325);
-				this.particleSnow.initialize();*/
-               	
+                
+                //this.particleSnow = new ParticleEngine();
+				//this.particleSnow.setValues( snow );
+				//this.particleSnow.initialize();
+               
                 //POSTPROCESSING
-               	renderer.shadowMapEnabled = true;
+               	renderer.shadowMap.enabled = true;
     			renderer.shadowMapSoft = true;
                 renderer.autoClear = false;
                 renderer.setClearColor( 0xccccff, 1 );
                 renderer.setSize( window.innerWidth, window.innerHeight );
                 
-
-                this.particleFireBall = new ParticleEngine();
-
+                this.particle = new ParticleEngine();
                 
 				window.addEventListener( 'resize', onWindowResize, false );
                 
@@ -339,27 +337,38 @@
                 //renderer.setViewport( 
 				renderer.render( scene, camera );
 				//this.particleSnow.update( delta * 0.5 );
-                this.particleFireBall.update(delta *0.5);
+                 
                 renderer.setViewport( 10, h - mapSize - 10, mapSize, mapSize );
                 renderer.render( scene, mapCamera );
                 
                 
-                
+                this.particle.update( delta * 0.5 );
+				this.particle.update(delta *0.5);
 				//defaultSong.update( camera );
 
 			}
-
-			function enemyDeathEffect(enemy)
+            
+            function enemyDeathEffect(enemy)
 			{
-				this.particleFireBall.destroy();
-				
-		        this.particleFireBall.setValues( this.fireball );
-		        this.particleFireBall.positionBase=enemy.position;
-		        this.particleFireBall.initialize();
-		        console.log(this.particleFireBall);
+				this.particle.destroy();
+				this.particle = new ParticleEngine();
+		        this.particle.setValues( this.fireball );
+		        this.particle.positionBase=enemy.position;
+		        this.particle.initialize();
 		        
 			}
+            
+            function cubeDeathEffect(cube)
+			{
+				this.particle.destroy();
+				this.particle = new ParticleEngine();
+				this.particle.setValues( this.snow );
+				this.particle.positionBase=cube.position;
+				this.particle.positionSpread= new THREE.Vector3(/*cube.position.x-25,cube.position.y-25,cube.position.z-25*/50,50,50);
+				this.particle.initialize();
 
+		        
+			}
 
 		</script>
         
