@@ -21,7 +21,7 @@ THREE.MTLLoader.prototype = {
 		var scope = this;
 
 		var loader = new THREE.XHRLoader();
-		loader.setCrossOrigin( this.crossOrigin );
+		//loader.setCrossOrigin( this.crossOrigin );
 		loader.load( url, function ( text ) {
 
 			onLoad( scope.parse( text ) );

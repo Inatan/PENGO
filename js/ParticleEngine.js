@@ -264,20 +264,20 @@ ParticleEngine.prototype.setValues = function( parameters )
 		{
 			texture:   { type: "t", value: this.particleTexture },
 		},
-		attributes:     
-		{
-			customVisible:	{ type: 'f',  value: [] },
-			customAngle:	{ type: 'f',  value: [] },
-			customSize:		{ type: 'f',  value: [] },
-			customColor:	{ type: 'c',  value: [] },
-			customOpacity:	{ type: 'f',  value: [] }
-		},
+		// attributes:     
+		// {
+		// 	customVisible:	{ type: 'f',  value: [] },
+		// 	customAngle:	{ type: 'f',  value: [] },
+		// 	customSize:		{ type: 'f',  value: [] },
+		// 	customColor:	{ type: 'c',  value: [] },
+		// 	customOpacity:	{ type: 'f',  value: [] }
+		// },
 		vertexShader:   particleVertexShader,
 		fragmentShader: particleFragmentShader,
 		transparent: true,  alphaTest: 0.5, // if having transparency issues, try including: alphaTest: 0.5, 
 		blending: THREE.NormalBlending, depthTest: true
 	});
-	this.particleMesh = new THREE.ParticleSystem();
+	this.particleMesh = new THREE.Points();
 }
 	
 // helper functions for randomization
@@ -339,24 +339,24 @@ ParticleEngine.prototype.createParticle = function()
 
 ParticleEngine.prototype.initialize = function()
 {
-	// link particle data with geometry/material data
+	// link particle data with geometry/material data	
 	for (var i = 0; i < this.particleCount; i++)
 	{
 		// remove duplicate code somehow, here and in update function below.
 		this.particleArray[i] = this.createParticle();
 		this.particleGeometry.vertices[i] = this.particleArray[i].position;
-		this.particleMaterial.attributes.customVisible.value[i] = this.particleArray[i].alive;
-		this.particleMaterial.attributes.customColor.value[i]   = this.particleArray[i].color;
-		this.particleMaterial.attributes.customOpacity.value[i] = this.particleArray[i].opacity;
-		this.particleMaterial.attributes.customSize.value[i]    = this.particleArray[i].size;
-		this.particleMaterial.attributes.customAngle.value[i]   = this.particleArray[i].angle;
+		// this.particleMaterial.attributes.customVisible.value[i] = this.particleArray[i].alive;
+		// this.particleMaterial.attributes.customColor.value[i]   = this.particleArray[i].color;
+		// this.particleMaterial.attributes.customOpacity.value[i] = this.particleArray[i].opacity;
+		// this.particleMaterial.attributes.customSize.value[i]    = this.particleArray[i].size;
+		// this.particleMaterial.attributes.customAngle.value[i]   = this.particleArray[i].angle;
 	}
 	
 	this.particleMaterial.blending = this.blendStyle;
 	if ( this.blendStyle != THREE.NormalBlending) 
 		this.particleMaterial.depthTest = false;
 	
-	this.particleMesh = new THREE.ParticleSystem( this.particleGeometry, this.particleMaterial );
+	this.particleMesh = new THREE.Points( this.particleGeometry, this.particleMaterial );
 	this.particleMesh.dynamic = true;
 	this.particleMesh.sortParticles = true;
 	scene.add( this.particleMesh );
